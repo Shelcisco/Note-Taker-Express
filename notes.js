@@ -15,7 +15,7 @@ Route.post("/api/notes", (req, res) => {
   const data = fs.readFileSync("db/db.json");
   const notes = JSON.parse(data);
   const newNote = {
-    id: uuidv4(),  // Use uuid to generate a unique ID
+    id: uuidv4(),  
     title: req.body.title,
     text: req.body.text
   };
