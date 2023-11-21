@@ -1,10 +1,13 @@
+//Variables
 let noteTitle;
 let noteText;
 let saveNoteBtn;
 let newNoteBtn;
 let noteList;
 
+// Checking the URL path to determine if on the '/notes' page
 if (window.location.pathname === '/notes') {
+  // Assigning elements to variables
   noteTitle = document.querySelector('.note-title');
   noteText = document.querySelector('.note-textarea');
   saveNoteBtn = document.querySelector('.save-note');
@@ -22,9 +25,10 @@ const hide = (elem) => {
   elem.style.display = 'none';
 };
 
-
+// Object to store the currently active note
 let activeNote = {};
 
+// Function to fetch notes from server
 const getNotes = () =>
   fetch('/api/notes', {
     method: 'GET',
@@ -33,6 +37,7 @@ const getNotes = () =>
     },
   });
 
+  // Function to save a note 
 const saveNote = (note) =>
   fetch('/api/notes', {
     method: 'POST',
@@ -42,6 +47,7 @@ const saveNote = (note) =>
     body: JSON.stringify(note),
   });
 
+  // Function to delete a note
 const deleteNote = (id) =>
   fetch(`/api/notes/${id}`, {
     method: 'DELETE',
@@ -50,6 +56,7 @@ const deleteNote = (id) =>
     },
   });
 
+  // Function to render active note in the UI
 const renderActiveNote = () => {
   hide(saveNoteBtn);
 
@@ -66,6 +73,7 @@ const renderActiveNote = () => {
   }
 };
 
+// Function to handle saving a note
 const handleNoteSave = () => {
   const newNote = {
     title: noteTitle.value,
@@ -108,6 +116,7 @@ const handleNewNoteView = (e) => {
   renderActiveNote();
 };
 
+//function to render save button 
 const handleRenderSaveBtn = () => {
   if (!noteTitle.value.trim() || !noteText.value.trim()) {
     hide(saveNoteBtn);
@@ -173,6 +182,7 @@ const renderNoteList = async (notes) => {
 // Gets notes from the db and renders them to the sidebar
 const getAndRenderNotes = () => getNotes().then(renderNoteList);
 
+// Event listeners
 if (window.location.pathname === '/notes') {
   saveNoteBtn.addEventListener('click', handleNoteSave);
   newNoteBtn.addEventListener('click', handleNewNoteView);
